@@ -1,5 +1,5 @@
 const fetch = require('node-fetch')
-const {ProductNode} = require ('./shopware-nodes.js')
+const {ProductNode, CategoryNode} = require ('./shopware-nodes.js')
 
 const api = {
   url:'https://zmb-8857.pg.shopware.com/',
@@ -10,13 +10,17 @@ const api = {
 exports.sourceNodes = ({ actions }) => {
 const { createNode } = actions;
 
-  return fetchApi('product', api.url, api.key, api.limit, 1)
-          .then(allProducts => Promise.all(allProducts.map(toNode)))
+const allProducts   = fetchApi('product', api.url, api.key, api.limit, 1)
+                      .then(products => Promise.all(products.map(data => createNode(ProductNode(data)))))
+
+const allCategories = fetchApi('category', api.url, api.key, api.limit, 1)
+                      .then(categories => Promise.all(categories.map(data => createNode(CategoryNode(data)))))
+
 
 function fetchApi(endpoint, url, key, limit, page){
       const apiUrl = url + 'storefront-api/v1/' + endpoint + '/?limit=' + limit + '&page=' + page
 
-      console.log(apiUrl)
+      console.log(': Try to fetch ' + endpoint + 'page ' + page)
 
     return fetch( apiUrl,{
       method: 'GET',
@@ -35,9 +39,5 @@ function fetchApi(endpoint, url, key, limit, page){
         });
 }
 
-
-function toNode(product){
-    return createNode(ProductNode(product));
-  }
-
+return Promise.all([allProducts, allCategories])
 }

@@ -8,14 +8,17 @@ const {
 });
 
 const PRODUCT = 'Product';
+const CATEGORY = 'Category'
 
 const ProductNode = createNodeFactory(PRODUCT);
+const CategoryNode = createNodeFactory(CATEGORY)
 
 const fakeNodes = [
     ProductNode(schema.product),
+    CategoryNode(schema.category)
 
 ];
 
 module.exports = {
-    ProductNode,
+    ProductNode, CategoryNode
 };
