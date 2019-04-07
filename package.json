@@ -1,0 +1,13 @@
+{
+    "name": "gatsby-source-shopware-platform",
+    "description": "Gatsby source Plugin for Importing Shopware Data",
+    "version": "0.0.1",
+    "author": "Me",
+    "keywords": [
+    ],
+    "license": "MIT",
+    "main": "gatsby-node.js",
+    "peerDependencies": {
+        "gatsby": ">2.0.0-alpha"
+    }
+}
